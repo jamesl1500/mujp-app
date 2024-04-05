@@ -1,0 +1,11 @@
+{
+  "menu": [
+    {
+      "method": "post",
+      "url": "/logout",
+      "name": "Logout",
+      "icon": "power",
+      "slug": "auth.logout"
+    }
+  ]
+}

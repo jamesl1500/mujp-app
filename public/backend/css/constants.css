@@ -1,0 +1,17 @@
+:root {
+    --thm-font: "Karla", sans-serif;
+    --heading-font: "Playfair Display", serif;
+    --special-font: "Work Sans", sans-serif;
+    --thm-base: #aaa081;
+    --thm-base-rgb: 170, 160, 129;
+    --thm-black: #252930;
+    --thm-black-rgb: 37, 41, 48;
+}
+
+.base-color {
+    color: var(--thm-base) !important;
+}
+
+.black-color {
+    color: var(--thm-black) !important;
+}

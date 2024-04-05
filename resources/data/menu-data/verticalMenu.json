@@ -1,0 +1,179 @@
+{
+  "menu": [
+    {
+      "url": "/admin/my-account",
+      "name": "My Account",
+      "icon": "user",
+      "slug": "admin.myAccount"
+    },
+    {
+      "url": "/admin/dashboard",
+      "name": "Dashboard",
+      "icon": "home",
+      "slug": "admin.dashboard"
+    },
+    {
+      "name": "User Management",
+      "icon": "users",
+      "slug": "",
+      "submenu": [
+        {
+          "icon": "circle",
+          "name": "View",
+          "url": "/admin/users/list",
+          "slug": "admin.users.list"
+        },
+        {
+          "icon": "circle",
+          "name": "Add",
+          "url": "/admin/users/new",
+          "slug": "admin.users.new"
+        }
+      ]
+    },
+    {
+      "name": "Library",
+      "icon": "list",
+      "url": "/admin/library",
+      "slug": "library",
+      "submenu": [
+        {
+          "icon": "circle",
+          "name": "Industries",
+          "url": "/admin/library/industries",
+          "slug": "industries.index"
+        },
+        {
+          "icon": "circle",
+          "name": "File Tags",
+          "url": "/admin/library/file-tags",
+          "slug": "admin.file-tags.index"
+        },
+        {
+          "icon": "circle",
+          "name": "Foundations",
+          "url": "/admin/library/foundations",
+          "slug": "foundations.index"
+        },
+        {
+          "icon": "circle",
+          "name": "Institutions",
+          "url": "/admin/library/institutions",
+          "slug": "institutions.index"
+        },
+        {
+          "icon": "circle",
+          "name": "Institution Types",
+          "url": "/admin/library/institution-types",
+          "slug": "institution-types.index"
+        },
+        {
+          "icon": "circle",
+          "name": "Institution Roles",
+          "url": "/admin/library/institution-roles",
+          "slug": "institution-roles.index"
+        },
+        {
+          "name": "Philanthropists",
+          "url": "/admin/library/philanthropists",
+          "slug": "philanthropists.edit",
+          "icon": "circle",
+          "submenu": [
+            {
+              "icon": "circle",
+              "name": "View",
+              "url": "/admin/library/philanthropists",
+              "slug": "philanthropists.index"
+            },
+            {
+              "icon": "circle",
+              "name": "Add",
+              "url": "/admin/library/philanthropists/add",
+              "slug": "philanthropists.add"
+            }
+          ]
+        },
+        {
+          "icon": "circle",
+          "name": "Relationship Types",
+          "url": "/admin/library/relation-types",
+          "slug": "relation-types.index"
+        }
+      ]
+    },
+    {
+      "name": "Location",
+      "icon": "map",
+      "slug": "location",
+      "submenu": [
+        {
+          "icon": "circle",
+          "name": "Countries",
+          "url": "/admin/location/countries",
+          "slug": "",
+          "submenu": [
+            {
+              "icon": "circle",
+              "name": "View",
+              "url": "/admin/location/countries",
+              "slug": "countries.index"
+            },
+            {
+              "icon": "circle",
+              "name": "Add",
+              "url": "/admin/location/countries/add",
+              "slug": "countries.create"
+            }
+          ]
+        },
+        {
+          "name": "States",
+          "url": "/admin/location/states",
+          "slug": "",
+          "icon": "circle",
+          "submenu": [
+            {
+              "icon": "circle",
+              "name": "View",
+              "url": "/admin/location/states",
+              "slug": "states.index"
+            },
+            {
+              "icon": "circle",
+              "name": "Add",
+              "url": "/admin/location/states/add",
+              "slug": "states.create"
+            }
+          ]
+        },
+        {
+          "name": "Cities",
+          "url": "/admin/location/cities",
+          "slug": "",
+          "icon": "circle",
+          "submenu": [
+            {
+              "icon": "circle",
+              "name": "View",
+              "url": "/admin/location/cities",
+              "slug": "cities.index"
+            },
+            {
+              "icon": "circle",
+              "name": "Add",
+              "url": "/admin/location/cities/add",
+              "slug": "cities.create"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "method": "post",
+      "url": "/logout",
+      "name": "Logout",
+      "icon": "power",
+      "slug": "auth.logout"
+    }
+  ]
+}
