@@ -44,7 +44,7 @@ class PhilanthropistFileController extends Controller
 
                 if ($uploadedFileName == 'false ' | $uploadedFileName == false) {
                     Log::warning('Error on storing file. (file system). PhilanthropistId: ' . $philanthropist->id . ', FileName: ' . $savePath . $originalFileName);
-                    return response()->json('Error on storing file. (file system)', 500);
+                    return redirect()->back()->with('error', 'Error on storing file. (file system)');
                 }
 
                 $existingFile = File::with('philanthropistFiles')->where('path', '=', $uploadedFileName);
@@ -72,7 +72,7 @@ class PhilanthropistFileController extends Controller
                         ]);
                         if (!$philFile) {
                             Log::warning('PhilanthropistFile is not stored. PhilanthropistId: ' . $philanthropist->id . ', FilePath: ' . $uploadedFileName);
-                            return response()->json('PhilanthropistFile is not stored', 500);
+                            return redirect()->back()->with('error', 'PhilanthropistFile is not stored');
                         }
                     }
                 } else {
@@ -87,7 +87,7 @@ class PhilanthropistFileController extends Controller
                     if (!$savingFile) {
                         Log::warning('File informatin is not stored properly. PhilanthropistController@uploadFile, PhilanthropistId: ' .
                             $philanthropist->id . ', FilePath:' . $uploadedFileName);
-                        return response()->json('An error occurred when saving file information!', 500);
+                        return redirect()->back()->with('error', 'An error occurred when saving file information!');
                     }
 
                     $philanthropistFile = PhilanthropistFile::create([
@@ -101,8 +101,10 @@ class PhilanthropistFileController extends Controller
                 }
 
 
-                return response()->json('File uploaded successfully!', 200);
+                return redirect()->back()->with('success', 'File uploaded successfully!');
             }
+            return redirect()->back()->with('success', 'File uploaded successfully!');
+
         } catch (\Exception $ex) {
             throw $ex;
             Log::error('An error occurred on PhilanthropistController->uploadFile() Ex: ' . $ex->getMessage());

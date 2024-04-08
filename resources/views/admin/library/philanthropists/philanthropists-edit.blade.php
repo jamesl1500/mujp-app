@@ -880,7 +880,7 @@
                 <div class="row">
                     <div id="files-container" class="col-md-6 col-12">
                         <form action="{{route('philanthropist-files.upload', $philanthropist->id)}}"
-                              class="dropzone dropzone-area" id="files">
+                              class="dropzone dropzone-area" id="files" method="post">
                             <div class="dz-message" data-dz-message>
                                 <span>Drop philanthropist files here to upload </span></div>
                             @csrf
@@ -888,6 +888,7 @@
                             <div class="fallback">
                                 <input name="file" type="file" multiple/>
                             </div>
+                            <button class="btn btn-primary" type="submit">Upload</button>
                         </form>
                     </div>
                     <!-- Basic Tree -->
@@ -1815,6 +1816,8 @@
                 },
             });
         };
+
+        // 
 
     </script>
 @endsection

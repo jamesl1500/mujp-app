@@ -56,7 +56,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item"
-                                   onclick="showUpdateModal({id: {{ $institution->id }}, name: '{{ str_replace('\'', ' ', $institution->name )}}'})">
+                                   onclick="showUpdateModal({id: {{ $institution->id }}, name: '{{ str_replace('\'', ' ', $institution->name )}}', city: '{{ $institution->city }}', state: '{{ $institution->state }}', notes: '{{ $institution->notes }}', country: '{{ $institution->country }}'})">
                                     <svg data-feather="archive" class="font-small-4 mr-50"></svg>
                                     Edit</a>
                                 <a class="dropdown-item delete-record"
@@ -121,6 +121,58 @@
                                             </span>
                                             @enderror
 
+                                        </div>
+                                    </div>
+                                    <!-- City -->
+                                    <div class="col-md-12">
+                                        <div class="form-group
+                                        ">
+                                            <label for="input-edit-institution-city">City</label>
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="input-add-institution-city"
+                                                    name="input-add-institution-city"
+                                                    placeholder="City"
+                                            />
+                                        </div>
+                                    </div>
+                                    <!-- State -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="input-edit-institution-state">State</label>
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="input-add-institution-state"
+                                                    name="input-add-institution-state"
+                                                    placeholder="State"
+                                            />
+                                        </div>
+                                    </div>
+                                    <!-- Country -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="input-edit-institution-country">Country</label>
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="input-add-institution-country"
+                                                    name="input-add-institution-country"
+                                                    placeholder="Country"
+                                            />
+                                        </div>
+                                    </div>
+                                    <!-- Notes -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="input-edit-institution-notes">Notes</label>
+                                            <textarea
+                                                    class="form-control"
+                                                    id="input-add-institution-notes"
+                                                    name="input-add-institution-notes"
+                                                    rows="3"
+                                            ></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -219,13 +271,68 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <!-- City -->
+                                    <div class="col-md-12">
+                                        <div class="form-group
+                                        ">
+                                            <label for="input-edit-institution-city">City</label>
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="input-edit-institution-city"
+                                                    name="input-edit-institution-city"
+                                                    placeholder="City"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <!-- State -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="input-edit-institution-state">State</label>
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="input-edit-institution-state"
+                                                    name="input-edit-institution-state"
+                                                    placeholder="State"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <!-- Country -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="input-edit-institution-country">Country</label>
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="input-edit-institution-country"
+                                                    name="input-edit-institution-country"
+                                                    placeholder="Country"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <!-- Notes -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="input-edit-institution-notes">Notes</label>
+                                            <textarea
+                                                    class="form-control"
+                                                    id="input-edit-institution-notes"
+                                                    name="input-edit-institution-notes"
+                                                    rows="3"
+                                            ></textarea>
+                                        </div>
+                                    </div>
                                 </div>
                             </section>
                             <!-- Edit Industries END -->
                         </div>
 
                         <div class="modal-footer">
-                            <button id="button-institution-update" type="submit" class="btn thm-btn" disabled>SAVE CHANGES
+                            <button id="button-institution-update" type="submit" class="btn thm-btn">SAVE CHANGES
                             </button>
                             <button type="button" class="btn btn-light" data-dismiss="modal">CANCEL</button>
                         </div>
@@ -257,6 +364,10 @@
             updateForm.action = `${institutionsUpdateUrl}/${institution.id}`;
             $('#input-edit-institution-name').val(institution.name);
             $('#input-edit-institution-id').val(institution.id);
+            $('#input-edit-institution-city').val(institution.city);
+            $('#input-edit-institution-state').val(institution.state);
+            $('#input-edit-institution-country').val(institution.country);
+            $('#input-edit-institution-notes').val(institution.notes);
             $('#edit-institution-search-result').html('');
             $('#span-edit-already-exists').addClass('d-none');
             $('#editModal').modal();

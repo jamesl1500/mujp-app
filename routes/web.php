@@ -35,7 +35,10 @@ Route::get('home', [StaterkitController::class, 'home'])->name('home');
 
 Route::get('/about', [\App\Http\Controllers\Frontend\AboutController::class, 'about'])->name('frontend.about');
 Route::get('/donate', [\App\Http\Controllers\Frontend\DonateController::class, 'donate'])->name('frontend.donate');
+Route::post('/donate/store', [\App\Http\Controllers\Frontend\DonateController::class, 'store'])->name('donate.store');
 Route::get('/contact', [\App\Http\Controllers\Frontend\ContactController::class, 'contact'])->name('frontend.contact');
+
+Route::get('/charity', [\App\Http\Controllers\Frontend\CharityController::class, 'charity'])->name('frontend.charity');
 
 Route::get('layouts/collapsed-menu', [StaterkitController::class, 'collapsed_menu'])->name('collapsed-menu');
 Route::get('layouts/boxed', [StaterkitController::class, 'layout_boxed'])->name('layout-boxed');
@@ -141,6 +144,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function () 
         Route::put('/philanthropists/{philanthropist}', [PhilanthropistController::class, 'update'])->name('philanthropists.update');
         Route::post('/philanthropists/{philanthropist}/removeFile', [PhilanthropistController::class, 'removeFile'])->name('philanthropist.removeFile');
         Route::delete('/philanthropists/{philanthropist}', [PhilanthropistController::class, 'destroy'])->name('philanthropists.destroy');
+
+        Route::post('/philanthropists/destroyAll', [PhilanthropistController::class, 'destroyAll'])->name('philanthropists.destroyAll');
+
         //#endregion
 
         //#region PhilanthropistFiles Routes

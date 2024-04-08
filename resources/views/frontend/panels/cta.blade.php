@@ -4,6 +4,7 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br>Pellentesque quis ex dolor.</p>
         <div class="cta-one__btn-block">
             <a href="#" class="thm-btn cta-one__btn-one">Contact Us</a>
+            <a href="{{ route('frontend.charity') }}" class="thm-btn cta-one__btn-one">Charity</a>
             <a href="/donate" class="thm-btn cta-one__btn-two">Donate</a>
         </div>
     </div>

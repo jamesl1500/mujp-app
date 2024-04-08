@@ -25,49 +25,69 @@
                 </div>
                 <div class="col-xl-8">
                     <div class="donate-one__form">
-                        <h3 class="donate-one__title">Make a Donation Today</h3>
-                        <div class="donate-one__amount">
-                            <select id="select_currency" class="selectpicker" onchange="getCurrency()">
-                                <option value="$">$</option>
-                                <option value="₤">₤</option>
-                                <option value="¥">¥</option>
-                            </select>
-                            <input type="text" id="donate_money" name="donation-money" onchange="getMoney()" value="70">
-                        </div>
-                        <div class="donate-one__selected-amount">
-                            <a id="70" class="active" onclick="get70()"><span id="currency_70">$</span> 70</a>
-                            <a id="80" onclick="get80()"><span id="currency_80">$</span> 80</a>
-                            <a id="90" onclick="get90()"><span id="currency_90">$</span> 90</a>
-                            <a id="100" onclick="get100()"><span id="currency_100">$</span> 100</a>
-                        </div>
-                        <h4 class="donate-one__subtitle">Personal Info</h4>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="donate-one__input">
-                                    <label>First Name <span>*</span></label>
-                                    <input name="fname" type="text" placeholder="First name">
-                                </div>
+                        <!-- Success message -->
+                        @if(Session::has('success'))
+                            <div class="alert alert-success">
+                                {{Session::get('success')}}
                             </div>
-                            <div class="col-lg-6">
-                                <div class="donate-one__input">
-                                    <label>Last Name</label>
-                                    <input type="text" name="lname" placeholder="Last name">
-                                </div>
+                        @endif
+                        <form action="{{ route('donate.store') }}" method="post" id="payment_form">
+                            @csrf
+                            <h3 class="donate-one__title">Make a Donation Today</h3>
+                            <div class="donate-one__amount">
+                                <select id="select_currency" class="selectpicker" onchange="getCurrency()">
+                                    <option value="$">$</option>
+                                    <option value="₤">₤</option>
+                                    <option value="¥">¥</option>
+                                </select>
+                                <input type="text" id="donate_money" name="donation-money" onchange="getMoney()" value="70">
                             </div>
-                            <div class="col-lg-12">
-                                <div class="donate-one__input">
-                                    <label>Email Address <span>*</span></label>
-                                    <input type="text" placeholder="Email address" name="email">
-                                </div>
+                            <div class="donate-one__selected-amount">
+                                <a id="70" class="active" onclick="get70()"><span id="currency_70">$</span> 70</a>
+                                <a id="80" onclick="get80()"><span id="currency_80">$</span> 80</a>
+                                <a id="90" onclick="get90()"><span id="currency_90">$</span> 90</a>
+                                <a id="100" onclick="get100()"><span id="currency_100">$</span> 100</a>
                             </div>
-                            <div class="col-lg-12">
-                                <div class="donate_total">
-                                    Total Donation: <span id="total_currency">$</span><input id="donate_amount" type="text" disabled value="70">
+                            <h4 class="donate-one__subtitle">Personal Info</h4>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="donate-one__input">
+                                        <label>First Name <span>*</span></label>
+                                        <input name="fname" type="text" placeholder="First name" required>
+                                    </div>
                                 </div>
+                                <div class="col-lg-6">
+                                    <div class="donate-one__input">
+                                        <label>Last Name</label>
+                                        <input type="text" name="lname" placeholder="Last name" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="donate-one__input">
+                                        <label>Email Address <span>*</span></label>
+                                        <input type="text" placeholder="Email address" name="email" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="donate-one__input">
+                                        <label for="card-element">Credit Card Number <span>*</span></label>
+                                        <div id="card-element">
+                                            <!-- A Stripe Element will be inserted here. -->
+                                        </div>
+                                    
+                                        <!-- Used to display form errors. -->
+                                        <div id="card-errors" role="alert"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="donate_total">
+                                        Total Donation: <span id="total_currency">$</span><input id="donate_amount" type="text" disabled value="70">
+                                    </div>
 
-                                <button type="submit" class="thm-btn donate-one__btn">Donate Now</button>
+                                    <button type="submit" class="thm-btn donate-one__btn">Donate Now</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -101,6 +121,76 @@
             height: 50px !important;
             line-height: 50px !important;
         }
-
+        /* Add some basic styling */
+        .form-row {
+            margin-bottom: 15px;
+        }
+        #card-element {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        #card-errors {
+            color: red;
+            margin-top: 10px;
+        }
     </style>
+
+    <!-- Stripe JS -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Create a Stripe client.
+        var stripe = Stripe('{{ env('STRIPE_KEY')}}');
+
+        // Create an instance of Elements.
+        var elements = stripe.elements();
+
+        // Create an instance of the card Element.
+        var card = elements.create('card');
+
+        // Add an instance of the card Element into the `card-element` div.
+        card.mount('#card-element');
+
+        // Handle real-time validation errors from the card Element.
+        card.addEventListener('change', function(event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        // Handle form submission.
+        var form = document.getElementById('payment_form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                    // Inform the user if there was an error.
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    // Send the token to your server.
+                    stripeTokenHandler(result.token);
+                }
+            });
+        });
+
+        // Submit the form with the token ID.
+        function stripeTokenHandler(token) {
+            // Insert the token ID into the form so it gets submitted to the server
+            var form = document.getElementById('payment_form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            // Submit the form
+            form.submit();
+        }
+
+    </script>
 @endsection

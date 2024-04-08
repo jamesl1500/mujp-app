@@ -1,5 +1,7 @@
 @foreach($philanthropists as $philanthropist)
     <tr>
+        <input type="hidden" value="{{ $philanthropist->id }}" />
+        <td></td>
         <td>{{$philanthropist->firstname}}</td>
         <td>{{$philanthropist->lastname}}</td>
 {{--        <td>{{$philanthropist->year_of_birth.'/'.str_pad($philanthropist->month_of_birth,2,'0',STR_PAD_LEFT).'/'.str_pad($philanthropist->date_of_birth,2,'0',STR_PAD_LEFT)}}</td>--}}

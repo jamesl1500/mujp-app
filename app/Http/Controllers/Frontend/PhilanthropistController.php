@@ -36,6 +36,11 @@ class PhilanthropistController extends Controller
     public function search(Request $request)
     {
         $searchParam = $request->search;
+
+        $fname  = $request->fname;
+        $lname  = $request->lname;
+        $name = $fname . ' ' . $lname;
+
         $sortParam = $request->sort;
 
         $itemsPerPage = 6;
@@ -56,6 +61,7 @@ class PhilanthropistController extends Controller
             case 'name-desc':
                 $orderQuery = "concat(firstname, ' ', lastname) DESC";
                 break;
+                
             case 'date-of-birth-asc':
                 $orderQuery = "year_of_birth ASC, month_of_birth ASC, date_of_birth ASC";
                 break;
@@ -70,12 +76,12 @@ class PhilanthropistController extends Controller
                 break;
         }
 
-        if ($searchParam) {
-            $philanthropists = $philanthropists->whereRaw("(concat(firstname, ' ', lastname) LIKE '" . $searchParam . "%' OR concat(firstname, ' ', lastname) LIKE '%" . $searchParam . "' OR concat(firstname, ' ', lastname) LIKE '%" . $searchParam . "%')");
+        if ($fname or $lname) {
+            $philanthropists = $philanthropists->whereRaw("(concat(firstname, ' ', lastname) LIKE '" . $name . "%' OR concat(firstname, ' ', lastname) LIKE '%" . $name . "' OR concat(firstname, ' ', lastname) LIKE '%" . $name . "%')");
             if ($sortParam !== 'name-asc' && $sortParam !== 'name-desc') {
                 $orderQuery = "CASE
-                WHEN concat(firstname, ' ', lastname) LIKE '" . $searchParam . "%' THEN 1
-                WHEN concat(firstname, ' ', lastname) LIKE '%" . $searchParam . "%' THEN 2
+                WHEN concat(firstname, ' ', lastname) LIKE '" . $name . "%' THEN 1
+                WHEN concat(firstname, ' ', lastname) LIKE '%" . $name . "%' THEN 2
                 ELSE 3
                 END, " . $orderQuery;
             }

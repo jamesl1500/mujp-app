@@ -25,7 +25,12 @@ class FileTag extends Model
     }
 
     public static function untaggedRecordId() {
-        return FileTag::where('name', '=', FileTag::emptyRecordName())->first()->id;
+        if(isset(FileTag::where('name', '=', FileTag::emptyRecordName())->first()->id)){
+            return FileTag::where('name', '=', FileTag::emptyRecordName())->first()->id;
+        }else{
+            Log::error('FileTag::untaggedRecordId() returned null');
+            return null;
+        }
     }
 
     public static function profileImageRecordId(){

@@ -170,6 +170,7 @@
         <table id="table-philanthropists" class="table">
             <thead class="thead-light">
             <tr>
+                <th></th>
                 <th>FIRST NAME</th>
                 <th>LAST NAME</th>
                 <th>BIRTH</th>
@@ -225,6 +226,8 @@
     <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
 
     <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
+
+    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
 @endsection
 
 @section('page-script')
@@ -238,10 +241,71 @@
             "order": [7],
             "drawCallback": function (settings) {
                 feather.replace();
-            }
+            },
+            // Minimum ammount of rows to display
+            "lengthMenu": [100, 500],
+            'columnDefs': [
+                {
+                    'targets': 0,
+                    'checkboxes': {
+                    'selectRow': true
+                    }
+                }
+            ],
+            'select': {
+                'style': 'multi'
+            },
         };
         $(document).ready(function () {
             dataTable = $('#table-philanthropists').DataTable(dataTableInitializer);
+
+            // When someone presses a checkbox, show delete button
+            $('#table-philanthropists').on('change', 'input[type="checkbox"]', function () {
+                if ($('#table-philanthropists input[type="checkbox"]:checked').length > 0) {
+                    $('#btn-delete').removeClass('d-none');
+                } else {
+                    $('#btn-delete').addClass('d-none');
+                }
+            });
+
+            // When someone presses the delete button, delete the selected records
+            $('#btn-delete').on('click', function () {
+                deleteSelectedRecords();
+            });
+
+            // When someone presses the delete button, delete the selected records
+            const deleteSelectedRecords = () => {
+                let selectedRecords = [];
+                $('#tbody-philanthropists input[type="checkbox"]:checked').each(function () {
+                    // Get closest hidden input
+                    selectedRecords.push($(this).closest('tr').find('input[type="hidden"]').val());
+                });
+
+                if (selectedRecords.length > 0) {
+                    $('#btn-delete').prop('disabled', true);
+                    $('#btn-delete').text('Deleting...')
+
+                    $.ajax({
+                        url: '{{ route('philanthropists.destroyAll') }}',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            philanthropistIds: selectedRecords
+                        },
+                        method: 'POST',
+                        success: function (response) {
+                            console.log('success', response);
+
+                            $('#btn-delete').text('SUCCESS');
+                            window.location.reload();
+                            $('#btn-delete').prop('disabled', false);
+                        },
+                        error: function (response) {
+                            console.log('error', response);
+                            $('#btn-delete').prop('disabled', false);
+                        },
+                    });
+                }
+            }
         });
 
         $('.select2').select2({

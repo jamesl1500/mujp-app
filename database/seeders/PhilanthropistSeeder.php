@@ -27,7 +27,7 @@ class PhilanthropistSeeder extends Seeder
     public function run()
     {
         $faker = Factory::create();
-        $philanthropists = Philanthropist::factory(20)->create();
+        $philanthropists = Philanthropist::factory(1000)->create();
         foreach ($philanthropists as $philanthropist) {
             //#region Family Relations
             $recordCount = rand(0, 3);

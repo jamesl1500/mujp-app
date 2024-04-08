@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/dataTables.bootstrap4.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/responsive.bootstrap4.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap4.min.css')) }}">
+    <link rel="stylesheet" href="https://pn-ciamis.go.id/asset/DataTables/extensions/Select/css/select.dataTables.css">
 
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
 @endsection
@@ -167,23 +168,24 @@
     </section>
     <!-- Philanthropists Search END -->
     <section class="philanthropist-list mt-1">
-        <h2>Results <span id="spinner-search"
-                          class="spinner-border text-primary d-none"></span></h2>
+        <h2>Results <span id="spinner-search" class="spinner-border text-primary d-none"></span></h2>
+        <button id="btn-delete" class="btn btn-danger d-none" onclick="deleteSelectedRecords()">DELETE</button>
         <table id="table-philanthropists" class="table">
             <thead class="thead-light">
-            <tr>
-                <th>FIRST NAME</th>
-                <th>LAST NAME</th>
-                <th>BIRTH</th>
-                <th>DEATH</th>
-                <th>BUSINESS</th>
-                <th>INSTITUTION</th>
-                <th>FOUNDATION</th>
-                <th>ACTIONS</th>
-            </tr>
+                <tr>
+                    <th></th>
+                    <th>FIRST NAME</th>
+                    <th>LAST NAME</th>
+                    <th>BIRTH</th>
+                    <th>DEATH</th>
+                    <th>BUSINESS</th>
+                    <th>INSTITUTION</th>
+                    <th>FOUNDATION</th>
+                    <th>ACTIONS</th>
+                </tr>
             </thead>
             <tbody id="tbody-philanthropists">
-            @include('admin.library.philanthropists.philanthropists-search-result', ['philanthropists' => $philanthropists])
+                @include('admin.library.philanthropists.philanthropists-search-result', ['philanthropists' => $philanthropists])
             </tbody>
         </table>
 
@@ -227,6 +229,9 @@
     <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
 
     <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
+
+    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+
 @endsection
 
 @section('page-script')
@@ -240,10 +245,71 @@
             "order": [7],
             "drawCallback": function (settings) {
                 feather.replace();
-            }
+            },
+            // Minimum ammount of rows to display
+            "lengthMenu": [100, 500],
+            'columnDefs': [
+                {
+                    'targets': 0,
+                    'checkboxes': {
+                    'selectRow': true
+                    }
+                }
+            ],
+            'select': {
+                'style': 'multi'
+            },
         };
         $(document).ready(function () {
             dataTable = $('#table-philanthropists').DataTable(dataTableInitializer);
+
+            // When someone presses a checkbox, show delete button
+            $('#table-philanthropists').on('change', 'input[type="checkbox"]', function () {
+                if ($('#table-philanthropists input[type="checkbox"]:checked').length > 0) {
+                    $('#btn-delete').removeClass('d-none');
+                } else {
+                    $('#btn-delete').addClass('d-none');
+                }
+            });
+
+            // When someone presses the delete button, delete the selected records
+            $('#btn-delete').on('click', function () {
+                deleteSelectedRecords();
+            });
+
+            // When someone presses the delete button, delete the selected records
+            const deleteSelectedRecords = () => {
+                let selectedRecords = [];
+                $('#tbody-philanthropists input[type="checkbox"]:checked').each(function () {
+                    // Get closest hidden input
+                    selectedRecords.push($(this).closest('tr').find('input[type="hidden"]').val());
+                });
+
+                if (selectedRecords.length > 0) {
+                    $('#btn-delete').prop('disabled', true);
+                    $('#btn-delete').text('Deleting...')
+
+                    $.ajax({
+                        url: '{{ route('philanthropists.destroyAll') }}',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            philanthropistIds: selectedRecords
+                        },
+                        method: 'POST',
+                        success: function (response) {
+                            console.log('success', response);
+
+                            $('#btn-delete').text('SUCCESS');
+                            window.location.reload();
+                            $('#btn-delete').prop('disabled', false);
+                        },
+                        error: function (response) {
+                            console.log('error', response);
+                            $('#btn-delete').prop('disabled', false);
+                        },
+                    });
+                }
+            }
         });
 
         $('.select2').select2({
@@ -261,6 +327,8 @@
                 }, 10);
             }
         });
+
+
 
         const searchInputKeydownHandler = (event) => {
             if(event.keyCode == 13){

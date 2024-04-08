@@ -689,6 +689,35 @@ class PhilanthropistController extends Controller
         return redirect()->back()->with('error', 'Something went wrong while deleting philanthropist!');
     }
 
+    public function destroyAll(Request $request)
+    {
+        $philanthropistIds = $request->input('philanthropistIds');
+        if (Philanthropist::destroy($philanthropistIds)) {
+            foreach($philanthropistIds as $philanthropistId){
+                //#region Deleting Philanthropist Related Records
+                $associatedPeopleRecords = PhilanthropistAssociatedPeople::withTrashed()->where('associated_philanthropist_id', '=', $philanthropistId);
+                if ($associatedPeopleRecords->exists()) {
+                    $associatedPeopleRecords->delete();
+                }
+                $relatedPeoples = PhilanthropistRelation::withTrashed()->where('related_philanthropist_id', '=', $philanthropistId);
+                if ($relatedPeoples->exists()) {
+                    $relatedPeoples->delete();
+                }
+                $businesses = Business::withTrashed()->where('philanthropist_id', '=', $philanthropistId);
+                if ($businesses->exists()) {
+                    $businesses->delete();
+                }
+                $favorites = Favorite::withTrashed()->where('philanthropist_id', '=', $philanthropistId);
+                if ($favorites->exists()) {
+                    $favorites->delete();
+                }
+                //#endregion
+            }
+            return response()->json('Philanthropists deleted successfully!', 200);
+        }
+        return response()->json('Something went wrong while deleting philanthropists!', 412);
+    }
+
     public function search(Request $request)
     {
         $name = $request->input('name');

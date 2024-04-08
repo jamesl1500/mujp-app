@@ -114,35 +114,51 @@
             <h2>Search Philanthropists</h2><br>
             <h5 style="color: #fff;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lacinia velit felis.
                 Suspendisse eleifend consectetur mattis.</h5>
-            <div class="search-form">
+            {{-- <div class="search-form">
                 <form action="#" class="search-popup__form" onsubmit="searchFormSubmitHandler(event)">
                     <input type="text" id="search-param" name="search" placeholder="Philanthropist Name...."
                            oninput="searchParamChangedHandler()">
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
                 <a href="#" class="advanced-search__link" onclick="advancedSearchClickHandler(event)">Advanced Search</a>
-            </div>
+            </div> --}}
 
             <!-- Advanced Search Container -->
-            <div id="advanced-search" class="container advanced-search__container" style="display: none; margin-top: 2rem" >
+            <div id="advanced-search" class="container advanced-search__container" style="margin-top: 2rem" >
+                <div class="row">
+                    <!-- Philanthropist Name -->
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="advanced-philanthropist-fname" class="advanced-search__title">Philanthropist First Name</label>
+                            <input type="text"
+                                     class="form-control"
+                                     placeholder="Philanthropist First Name..."
+                                     value=""
+                                     onkeydown="searchInputsKeydownHandler(event)"
+                                     name="advanced-philanthropist-fname"
+                                     id="advanced-philanthropist-fname"
+                                     required
+                            />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="advanced-philanthropist-lname" class="advanced-search__title">Philanthropist Last Name</label>
+                            <input type="text"
+                                     class="form-control"
+                                     placeholder="Philanthropist Last Name..."
+                                     value=""
+                                     onkeydown="searchInputsKeydownHandler(event)"
+                                     name="advanced-philanthropist-lname"
+                                     id="advanced-philanthropist-lname"
+                                     required
+                            />
+                        </div>
+                    </div>
+                </div>
                <div class="row">
-                   <!-- Name -->
-                   <div class="col-md-4 col-lg-4">
-                       <div class="form-group">
-                           <label for="advanced-philanthropist-name" class="advanced-search__title">Philanthropist Name</label>
-                           <input type="text"
-                                  class="form-control"
-                                  placeholder="Philanthropist Name..."
-                                  value=""
-                                  onkeydown="searchInputsKeydownHandler(event)"
-                                  name="advanced-philanthropist-name"
-                                  id="advanced-philanthropist-name"
-                                  required
-                           />
-                       </div>
-                   </div>
                    <!-- Birth Year -->
-                   <div class="col-6 col-md-2 col-lg-2">
+                   <div class="col-6 col-md-4 col-lg-4">
                        <div class="form-group">
                            <label for="advanced-birth-year" class="advanced-search__title">Birth Year</label>
                            <select id="advanced-birth-year" class="form-control select2 year-select">
@@ -154,7 +170,7 @@
                        </div>
                    </div>
                    <!-- Death Year -->
-                   <div class="col-6 col-md-2 col-lg-2">
+                   <div class="col-6 col-md-4 col-lg-4">
                        <div class="form-group">
                            <label for="advanced-death-year" class="advanced-search__title">Death Year</label>
                            <select id="advanced-death-year" class="form-control select2 year-select">
@@ -536,6 +552,8 @@
             }
             return {
                 'search': $('#advanced-philanthropist-name').val() !== '' ? $('#advanced-philanthropist-name').val() : null,
+                'fname': $('#advanced-philanthropist-fname').val() !== '' ? $('#advanced-philanthropist-fname').val() : null,
+                'lname': $('#advanced-philanthropist-lname').val() !== '' ? $('#advanced-philanthropist-lname').val() : null,
                 'sort': $('#sort-type').val() !== '#' ? $('#sort-type').val() : null,
                 'birthYear': $('#advanced-birth-year').val() != '' ? $('#advanced-birth-year').val() : null,
                 'deathYear': $('#advanced-death-year').val() != '' ? $('#advanced-death-year').val() : null,

@@ -12,7 +12,11 @@ class Institution extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name'
+        'name',
+        'city',
+        'state',
+        'notes',
+        'country',
     ];
 
     public function institutionType()

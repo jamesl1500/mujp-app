@@ -188,7 +188,7 @@
                                 </li>
                             @endisset
                         </ul>
-                        <a href="#" class="thm-btn event-details__book-btn">Donate</a>
+                        <a href="{{ route('frontend.donate') }}" class="thm-btn event-details__book-btn">Donate</a>
                         @can('isAdmin')
                             <a href="{{route('philanthropists.edit', $philanthropist->id)}}" target="_blank"
                                class="thm-btn event-details__book-btn mt-1"

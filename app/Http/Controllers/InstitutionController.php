@@ -24,7 +24,12 @@ class InstitutionController extends Controller
     public function update(Request $request, $id)
     {
         $institution_name = $request->input('input-edit-institution-name');
-        $executed = Institution::where('id', '=', $id)->update(['name' => $institution_name]);
+        $institution_city = $request->input('input-edit-institution-city');
+        $institution_state = $request->input('input-edit-institution-state');
+        $institution_notes = $request->input('input-edit-institution-notes');
+        $institution_country = $request->input('input-edit-institution-country');
+
+        $executed = Institution::where('id', '=', $id)->update(['name' => $institution_name, 'city' => $institution_city, 'state' => $institution_state, 'notes' => $institution_notes, 'country' => $institution_country]);
         if($executed){
             return redirect()->back()->with('success', 'Institution updated successfully.');
         }
@@ -34,11 +39,19 @@ class InstitutionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'institution_name' => 'required|string|max:255|unique:institutions,name'
+            'institution_name' => 'required|string|max:255|unique:institutions,name',
+            'input-add-institution-city' => 'nullable|string|max:255',
+            'input-add-institution-state' => 'nullable|string|max:255',
+            'input-add-institution-notes' => 'nullable|string|max:255',
+            'input-add-institution-country' => 'nullable|string|max:255',
         ]);
 
         $institution = Institution::create([
-            "name" => ucfirst($request->institution_name)
+            "name" => ucfirst($request->institution_name),
+            "city" => ucfirst($request->input('input-add-institution-city')),
+            "state" => ucfirst($request->input('input-add-institution-state')),
+            "notes" => ucfirst($request->input('input-add-institution-notes')),
+            "country" => ucfirst($request->input('input-add-institution-country')),
         ]);
 
         if ($institution) {

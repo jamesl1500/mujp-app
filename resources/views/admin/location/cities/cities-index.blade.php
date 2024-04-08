@@ -188,6 +188,7 @@
                 }
             }
             dataTable = $('#table-cities').DataTable({
+                "lengthMenu": [100, 500],
                 "drawCallback": function (settings) {
                     feather.replace();
                 }
