@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
+use App\Events\FileUploaded;
+
 class PhilanthropistFileController extends Controller
 {
     public function uploadFile(Request $request, Philanthropist $philanthropist)
@@ -100,9 +102,13 @@ class PhilanthropistFileController extends Controller
                     }
                 }
 
-
+                // After file upload logic
+                event(new FileUploaded());
                 return redirect()->back()->with('success', 'File uploaded successfully!');
             }
+
+            // After file upload logic
+            event(new FileUploaded());
             return redirect()->back()->with('success', 'File uploaded successfully!');
 
         } catch (\Exception $ex) {

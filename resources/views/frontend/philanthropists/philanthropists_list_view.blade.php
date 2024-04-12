@@ -158,30 +158,63 @@
                 </div>
                <div class="row">
                    <!-- Birth Year -->
-                   <div class="col-6 col-md-4 col-lg-4">
+                   <div class="col-6 col-md-3 col-lg-3">
                        <div class="form-group">
-                           <label for="advanced-birth-year" class="advanced-search__title">Birth Year</label>
-                           <select id="advanced-birth-year" class="form-control select2 year-select">
-                               <option></option>
-                               @for ($year = 1700; $year <= date('Y'); $year++)
-                                   <option value="{{ $year }}">{{$year}}</option>
-                               @endfor
-                           </select>
+                           <label for="city-born-in" class="advanced-search__title">City Born In</label>
+                           <input type="text"
+                                  class="form-control"
+                                  placeholder="City Born In..."
+                                  value=""
+                                  name="city-born-in"
+                                  id="city-born-in"
+                                  required
+                                  />
                        </div>
                    </div>
                    <!-- Death Year -->
-                   <div class="col-6 col-md-4 col-lg-4">
-                       <div class="form-group">
-                           <label for="advanced-death-year" class="advanced-search__title">Death Year</label>
-                           <select id="advanced-death-year" class="form-control select2 year-select">
-                               <option></option>
-                               @for ($year = 1700; $year <= date('Y'); $year++)
-                                   <option value="{{ $year }}">{{$year}}</option>
-                               @endfor
-                           </select>
-                       </div>
+                   <div class="col-6 col-md-3 col-lg-3">
+                    <div class="form-group">
+                        <label for="country-born-in" class="advanced-search__title">Country Born In</label>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Country Born In..."
+                               value=""
+                               name="country-born-in"
+                               id="country-born-in"
+                               required
+                               />
+                    </div>
                    </div>
-
+                   <!-- Birth Year -->
+                   <div class="col-6 col-md-3 col-lg-3">
+                    <div class="form-group">
+                        <label for="city-born-in" class="advanced-search__title">City Died In</label>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="City Born In..."
+                               value=""
+                               name="city-died-in"
+                               id="city-died-in"
+                               required
+                               />
+                    </div>
+                </div>
+                <!-- Death Year -->
+                <div class="col-6 col-md-3 col-lg-3">
+                 <div class="form-group">
+                     <label for="country-born-in" class="advanced-search__title">Country Died In</label>
+                     <input type="text"
+                            class="form-control"
+                            placeholder="Country Born In..."
+                            value=""
+                            name="country-died-in"
+                            id="country-died-in"
+                            required
+                            />
+                 </div>
+                </div>
+                </div>
+                <div class="row">
                    <!-- Industries -->
                    <div class="col-12 col-md-4 col-lg-4">
                        <div class="form-group">
@@ -226,7 +259,7 @@
                            />
                        </div>
                    </div>
-
+                </div>
                    <!-- Advanced Search Button -->
                    <div class="col-12">
                        <button class="thm-btn btn-advanced-search" onclick="advancedSearchButtonClickHandler(event)">SEARCH</button>

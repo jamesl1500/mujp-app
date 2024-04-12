@@ -243,7 +243,7 @@
                 feather.replace();
             },
             // Minimum ammount of rows to display
-            "lengthMenu": [100, 500],
+            "lengthMenu": [100, 200, 300, 400, 500],
             'columnDefs': [
                 {
                     'targets': 0,

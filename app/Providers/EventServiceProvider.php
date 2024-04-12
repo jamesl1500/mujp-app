@@ -18,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        'App\Events\FileUploaded' => [
+            'App\Listeners\UpdateStorageSymlink',
+        ],
     ];
 
     /**
@@ -28,5 +31,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        parent::boot();
     }
 }
