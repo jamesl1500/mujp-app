@@ -1,0 +1,41 @@
+{
+  "menu": [
+    {
+      "url": "/member/my-account",
+      "name": "My Account",
+      "icon": "user",
+      "slug": "member.myAccount"
+    },
+    {
+      "url": "/member/dashboard",
+      "name": "Dashboard",
+      "icon": "home",
+      "slug": "member.dashboard"
+    },
+    {
+      "url": "/member/favorites",
+      "name": "Favorites",
+      "icon": "star",
+      "slug": "member.favorites"
+    },
+    {
+      "url": "/member/submissions",
+      "name": "My Submissions",
+      "icon": "file-text",
+      "slug": "member.submissions"
+    },
+    {
+      "url": "/member/donations",
+      "name": "My Donations",
+      "icon": "dollar-sign",
+      "slug": "member.donations"
+    },
+    {
+      "method": "post",
+      "url": "/logout",
+      "name": "Logout",
+      "icon": "power",
+      "slug": "auth.logout"
+    }
+  ]
+}
