@@ -33,6 +33,8 @@
             -webkit-align-items: center;
             align-items: center;
             min-height: 420px;
+
+            flex-direction: column;
         }
 
         .swiper-slide img {
@@ -40,6 +42,14 @@
             object-fit: cover;
             width: 56.25%;
             height: 100%;
+        }
+
+        .swiper-slide .swiper-slide-caption{
+            padding-top: 20px;
+        }
+
+        .swiper-slide .swiper-slide-caption h5{
+            font-size: 1.2em;
         }
 
         .swiper-button-prev:after, .swiper-button-next:after {
@@ -322,9 +332,12 @@
                         <div class="swipper-container swiper-gallery">
                             <div class="swiper-wrapper">
                                 @foreach($philanthropist->galleryImages as $galleryImage)
-                                    <div class="swiper-slide"><img
-                                                src="{{str_replace('public', 'storage', asset($galleryImage->path))}}"
-                                                alt=""></div>
+                                    <div class="swiper-slide">
+                                        <img src="{{str_replace('public', 'storage', asset($galleryImage->path))}}" alt="">
+                                        <div class="swiper-slide-caption">
+                                            <h5>{{$galleryImage->caption}}</h5>
+                                        </div>
+                                    </div>
                                 @endforeach
                             </div>
                             <div class="swiper-button-next "></div>
@@ -411,6 +424,8 @@
     <script>
         $(document).ready(() => {
             const swiper = new Swiper(".swiper-gallery", {
+                // Enable captions
+
                 slidesPerView: 1,
                 spaceBetween: 30,
                 keyboard: {

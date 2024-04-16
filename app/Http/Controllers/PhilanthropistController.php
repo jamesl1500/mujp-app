@@ -612,7 +612,8 @@ class PhilanthropistController extends Controller
                 'size' => readeble_file_size(Storage::size($filePath)),
                 'tag' => $fileTag,
                 'tagId' => $fileTagId,
-                'phiFileId' => $pfile->id
+                'phiFileId' => $pfile->id,
+                'caption' => $pfile->file->caption
             ];
         }
 

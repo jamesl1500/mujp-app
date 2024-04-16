@@ -902,7 +902,7 @@
                                             <ul>
                                                 @foreach($files as $file)
                                                     <li data-jstree='{"icon" : "{{ $file['icon']}}"}'>
-                                                        <a class="file-redirect" data-pfile="{{$file['phiFileId']}}" }
+                                                        <a class="file-redirect" data-pfile="{{$file['phiFileId']}}" data-caption="{{$file['caption']}}"
                                                            href="{{$file['path']}}">{{$file['file']}} <span
                                                                     class="font-small-2 font-weight-bold">({{$file['date']}})</span><span
                                                                     class="font-small-2 font-weight-bold"> <div
@@ -929,6 +929,18 @@
                                             <option value="{{$fileTag->id}}">{{$fileTag->name}}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                                <!-- Add caption form -->
+                                <div class="form-group">
+                                    <label for="caption">Caption</label>
+                                    <input type="text" class="form-control caption"
+                                            placeholder="Caption"
+                                            value=""
+                                            name="caption"
+                                            id="caption"
+                                            data-pfile=""
+                                            disabled
+                                    />
                                 </div>
                                 <button class="btn btn-outline-primary" id="button-file-view" disabled>View</button>
                                 <button class="btn btn-outline-danger text-nowrap" id="button-file-delete"
@@ -1122,6 +1134,7 @@
                     const selectedAnchorId = selectedAnchor.attr('id');
                     const philanthropistId = $('#philanthropist_id').val();
                     const philanthropistFileId = selectedAnchor.data('pfile');
+                    const caption = selectedAnchor.data('caption');
 
                     $('#select-file-tag').val(selectedTagId).trigger('change');
 
@@ -1140,6 +1153,9 @@
                     $('#button-file-view').removeAttr('disabled');
                     $('#button-file-delete').removeAttr('disabled');
                     $('#select-file-tag').removeAttr('disabled');
+
+                    $("#caption").removeAttr('disabled');
+                    $("#caption").val(caption);
 
                     // window.open($(`#${data.selected[0]}`).find('.file-redirect').attr('href'), '_blank');
                 } else {
@@ -1817,7 +1833,29 @@
             });
         };
 
-        // 
+        // Caption on keyup
+        $('#caption').on('keyup', function (e) {
+            const caption = $(this).val();
+            const philanthropistFileId = $(this).data('pfile');
+            
+            // Ajax update
+            $.ajax({
+                'url': '{{route('philanthropist-files.updateCaption')}}',
+                'type': 'post',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    caption: caption,
+                    philanthropistFileId: philanthropistFileId
+                },
+                cache: false,
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (err) {
+                    console.log(err);
+                },
+            });
+        });
 
     </script>
 @endsection

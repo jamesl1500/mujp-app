@@ -10,9 +10,61 @@
             text-transform: none !important;
         }
     </style>
+    <script src="https://cdn.tiny.cloud/1/5pwiuoduxtz2fuazw1kk7xpcal9ytfkla457ygji53oozf3f/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 @endsection
 
 @section('content')
+    <?php 
+    // If loggewd in user is admin
+    if (Auth::check() && Auth::user()->role_key == "admin") {
+        ?>
+            <script>
+                tinymce.init({
+                    selector: '.editable',
+                    inline: true,
+                    setup: function(editor) {
+                       // Add event listener for keydown event
+                        editor.on('keydown', function(e) {
+                        // Get selectors data
+                        var htId = editor.getElement().getAttribute('data-htid');
+
+                        // Check if Enter key was pressed (key code 13)
+                        if (e.keyCode === 13) {
+                            // Prevent default Enter behavior (new line)
+                            e.preventDefault();
+                            
+                            // Get the content from the editor
+                            var content = editor.getContent();
+                            
+                            // Make AJAX call to your server
+                            $.ajax({
+                            url: '{{ route("homepage_text.update") }}',
+                            method: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                htid: htId,
+                                content: content
+                            },
+                            success: function(response) {
+                                // Handle success response
+                                alert('Content saved successfully!');
+                                console.log('Content saved successfully:', response);
+                            },
+                            error: function(xhr, status, error) {
+                                // Handle error
+                                console.error('Error saving content:', error);
+                            }
+                            });
+                        }
+                        });
+                    }
+                });
+            </script>
+        <?php
+    }
+            // Get first record in 'homepage_text' table
+            $homepage_text = DB::table('homepage_text')->first();
+    ?>
     <section class="banner-section banner-section__home-two">
         <div class="banner-carousel thm__owl-carousel owl-theme owl-carousel" data-options='{"loop": true, "items": 1, "margin": 0, "dots": false, "nav": true, "animateOut": "fadeOut", "animateIn": "fadeIn", "active": true, "smartSpeed": 3000, "autoplay": true, "autoplayTimeout": 6000, "autoplayHoverPause": false}'>
             <!-- Slide Item -->
@@ -51,14 +103,14 @@
                 <div class="col-lg-6">
                     <div class="about-two__content">
                         <div class="block-title">
-                            <p>About Museum of Jewish Philanthropists</p>
-                            <h3>Historical Museum of Jewish Philanthropists</h3>
+                            <p class="editable" data-htid="first_section_small_pretitle"><?php echo $homepage_text->first_section_small_pretitle; ?></p>
+                            <h3 class="editable" data-htid="first_section_main_title" ><?php echo $homepage_text->first_section_main_title; ?></h3>
                         </div>
-                        <p class="about-two__highlight">
-                            Welcome to the Museum of Jewish Philanthropists. MUJP is one of the largest professionally compiled Jewish Philanthropist resources of its kind currently available.
+                        <p class="about-two__highlight editable" data-htid="first_section_small_subtitle">
+                            <?php echo $homepage_text->first_section_small_subtitle; ?>
                         </p>
-                        <p>
-                            We have over 1,000,000 Jewish Genealogy records including images of Jewish Tombstones, school yearbook pages and Citizen Declaration documents. New Jewish Genealogy records are added on an ongoing basis. View records from around the world and submit your local Jewish Cemetery records and photos to help increase the Jewish Genealogy records and provide information for other Jewish Genealogy seekers.
+                        <p class="editable" data-htid="first_section_main_text">
+                            <?php echo $homepage_text->first_section_main_text; ?>
                         </p>
                     </div>
                 </div>
@@ -162,17 +214,17 @@
                         <div class="featured-collection__image">
                             <img src="{{asset('frontend/images/resources/featured-philanthropists-images-1-1.jpg')}}" alt="">
                         </div>
-                        <p>Nam eget augue eu augue scelerisque viverra pulvinar id diam. Vestibulum consequat laoreet gravida. In hac habitasse platea dictumst. Nunc ac leo mauris.</p>
+                        <p class="editable" data-htid="third_section_main_text"><?php echo $homepage_text->third_section_main_text; ?></p>
                         <a href="{{route('frontend.philanthropists.index')}}" class="thm-btn featured-collection__btn">Explore Philanthropists</a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="featured-collection__right">
                         <div class="block-title">
-                            <p>Most Influential Philanthropists</p>
-                            <h3>Featured Philanthropists</h3>
+                            <p class="editable" data-htid="third_section_small_pretitle"><?php echo $homepage_text->third_section_small_pretitle; ?></p>
+                            <h3 class="editable" data-htid="third_section_main_title" ><?php echo $homepage_text->third_section_main_title; ?></h3>
                         </div>
-                        <p>Welcome to the Museum of Jewish Philanthropists. Maecenas quis imperdiet sapien. Aenean pulvinar maximus dictum.</p>
+                        <p class="editable" data-htid="third_section_small_subtitle"><?php echo $homepage_text->third_section_small_subtitle; ?></p>
                         <div class="featured-collection__image">
                             <img src="{{asset('frontend/images/resources/featured-philanthropists-images-2-2.jpg')}}" alt="">
                         </div>

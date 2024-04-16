@@ -20,6 +20,7 @@ class File extends Model
         'name',
         'extension',
         'type',
+        'caption',
         'updated_at'
     ];
 

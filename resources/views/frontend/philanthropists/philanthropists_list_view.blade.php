@@ -175,20 +175,17 @@
                    <div class="col-6 col-md-3 col-lg-3">
                     <div class="form-group">
                         <label for="country-born-in" class="advanced-search__title">Country Born In</label>
-                        <input type="text"
-                               class="form-control"
-                               placeholder="Country Born In..."
-                               value=""
-                               name="country-born-in"
-                               id="country-born-in"
-                               required
-                               />
+                        <select class="form-control select2" name="country_born_in"
+                        id="country_born_in"
+                        oninput="countryChangedHandler(event)">
+                           @include('shared.option-list', ['options' => $countries, 'addEmptyOption' => true])
+                       </select>
                     </div>
                    </div>
                    <!-- Birth Year -->
                    <div class="col-6 col-md-3 col-lg-3">
                     <div class="form-group">
-                        <label for="city-born-in" class="advanced-search__title">City Died In</label>
+                        <label for="city-lived-in" class="advanced-search__title">City Lived In</label>
                         <input type="text"
                                class="form-control"
                                placeholder="City Born In..."
@@ -202,15 +199,12 @@
                 <!-- Death Year -->
                 <div class="col-6 col-md-3 col-lg-3">
                  <div class="form-group">
-                     <label for="country-born-in" class="advanced-search__title">Country Died In</label>
-                     <input type="text"
-                            class="form-control"
-                            placeholder="Country Born In..."
-                            value=""
-                            name="country-died-in"
-                            id="country-died-in"
-                            required
-                            />
+                     <label for="country_lived_in" class="advanced-search__title">Country Lived In</label>
+                     <select class="form-control select2" name="country_lived_in"
+                     id="country_lived_in"
+                     oninput="countryChangedHandler(event)">
+                        @include('shared.option-list', ['options' => $countries, 'addEmptyOption' => true])
+                    </select>
                  </div>
                 </div>
                 </div>
@@ -410,6 +404,41 @@
             }
         });
 
+        $('.select2').select2({
+            placeholder: 'Select',
+            allowClear: true
+        });
+
+        const countryChangedHandler = (event) => {
+            const countryId = event.target.value;
+            let stateOfBirth = null;
+            let cityOfBirth = null;
+
+            switch (event.target.id) {
+                case 'country_lived_in': {
+                    stateOfBirth = $('#state-of-birth');
+                    cityOfBirth = $('#city_of_birth');
+                    break;
+                }
+                case 'country_born_in': {
+                    stateOfBirth = $('#state_lived_in');
+                    cityOfBirth = $('#city_lived_in');
+                    break;
+                }
+            }
+
+            if (!countryId) {
+                stateOfBirth.html('');
+                cityOfBirth.html('');
+                return;
+            }
+            stateOfBirth.prop('disabled', true);
+            cityOfBirth.prop('disabled', true);
+
+            //fetchStateOptions(countryId, event.target.id);
+        }
+
+
         const searchFormSubmitHandler = event => {
             event.preventDefault();
             $('#sort-type').prop('selectedIndex', 0).trigger('change');
@@ -593,6 +622,10 @@
                 'industry': $('#advanced-industry').val() != '' ? $('#advanced-industry').val() : null,
                 'businessName': $('#advanced-business-name').val() != '' ? $('#advanced-business-name').val() : null,
                 'institutionName': $('#advanced-institution-name').val() != '' ? $('#advanced-institution-name').val() : null,
+                'cityBornIn': $('#city-born-in').val() != '' ? $('#city-born-in').val() : null,
+                'countryBornIn': $('#country-born-in').val() != '' ? $('#country-born-in').val() : null,
+                'cityLivedIn': $('#city-lived-in').val() != '' ? $('#city-lived-in').val() : null,
+                'countryLivedIn': $('#country-lived-in').val() != '' ? $('#country-lived-in').val() : null,
             }
         }
 

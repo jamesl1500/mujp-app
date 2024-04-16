@@ -47,6 +47,9 @@ Route::get('layouts/empty', [StaterkitController::class, 'layout_empty'])->name(
 Route::get('layouts/blank', [StaterkitController::class, 'layout_blank'])->name('layout-blank');
 Route::get('/test', 'TestController@index');
 
+// For homepage_text post requests
+Route::post('/homepage_text', [\App\Http\Controllers\Frontend\HomeController::class, 'update'])->name('homepage_text.update');
+
 //#region Front-end
 
 Route::get('/', [\App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('frontend.home');
@@ -156,6 +159,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function () 
             ->name('philanthropist-files.remove');
         Route::post('/philanthropistFiles/{philanthropistFile}/changeFileTag', [\App\Http\Controllers\PhilanthropistFileController::class, 'changeFileTag'])
             ->name('philanthropist-files.changeFileTag');
+        
+        // For changing file caption
+        Route::post('/philanthropistFiles/changeFileCaption', [\App\Http\Controllers\PhilanthropistFileController::class, 'updateCaption'])
+            ->name('philanthropist-files.updateCaption');
 
         //#endregion
 

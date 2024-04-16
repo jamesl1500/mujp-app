@@ -180,6 +180,23 @@ class PhilanthropistFileController extends Controller
         return response()->json('Error on FileTag change request!', 500);
     }
 
+    public function updateCaption(Request $request)
+    {
+        $request->validate([
+            'philanthropistFileId' => 'required|exists:files,id',
+            'caption' => 'required|string|max:255'
+        ]);
+
+        $updated = File::find($request->philanthropistFileId)->update([
+            'caption' => $request->caption
+        ]);
+
+        if ($updated) {
+            return response()->json('Caption updated successfully!', 200);
+        }
+        return response()->json('Error on caption update request!', 500);
+    }
+
     public function getFileTagByFileName(string $fileName, string $seperator = '_')
     {
         if (!str_contains($fileName, $seperator)) {

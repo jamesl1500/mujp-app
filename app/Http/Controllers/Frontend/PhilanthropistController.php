@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\Country;
+use App\Models\City;
+
 class PhilanthropistController extends Controller
 
 {
@@ -19,15 +22,21 @@ class PhilanthropistController extends Controller
         $industries = Industry::where('name', '!=', Industry::emptyRecordName())->orderBy('name')->get();
         if ($request->view == 'column') {
             return view('frontend.philanthropists.philanthropists_col_view', [
+                'countries'  => Country::orderBy('name')->get(),
+                'cities'     => City::orderBy('name')->get(),
                 'industries' => $industries
             ]);
         }
         if ($request->view == 'table') {
             return view('frontend.philanthropists.philanthropists_table_view', [
+                'countries'  => Country::orderBy('name')->get(),
+                'cities'     => City::orderBy('name')->get(),
                 'industries' => $industries
             ]);
         } else { //list view
             return view('frontend.philanthropists.philanthropists_list_view', [
+                'countries'  => Country::orderBy('name')->get(),
+                'cities'     => City::orderBy('name')->get(),
                 'industries' => $industries
             ]);
         }
@@ -94,6 +103,12 @@ class PhilanthropistController extends Controller
         if ($request->deathYear) {
             $philanthropists = $philanthropists->where('year_of_death', '=', $request->deathYear);
         }
+
+        if($request->cityBornIn){
+            $philanthropists = $philanthropists->where('city_of_birth', '=', $request->cityBornIn);
+        }
+
+
 
         if ($request->industry) {
             $philanthropistsIdList = Business::where('industry_id', '=', $request->industry)->get()->pluck('philanthropist_id');
