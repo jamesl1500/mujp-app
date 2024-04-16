@@ -1156,6 +1156,7 @@
 
                     $("#caption").removeAttr('disabled');
                     $("#caption").val(caption);
+                    $("#caption").attr('data-pfile', philanthropistFileId);
 
                     // window.open($(`#${data.selected[0]}`).find('.file-redirect').attr('href'), '_blank');
                 } else {
