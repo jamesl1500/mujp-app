@@ -22,21 +22,15 @@ class PhilanthropistController extends Controller
         $industries = Industry::where('name', '!=', Industry::emptyRecordName())->orderBy('name')->get();
         if ($request->view == 'column') {
             return view('frontend.philanthropists.philanthropists_col_view', [
-                'countries'  => Country::orderBy('name')->get(),
-                'cities'     => City::orderBy('name')->get(),
                 'industries' => $industries
             ]);
         }
         if ($request->view == 'table') {
             return view('frontend.philanthropists.philanthropists_table_view', [
-                'countries'  => Country::orderBy('name')->get(),
-                'cities'     => City::orderBy('name')->get(),
                 'industries' => $industries
             ]);
         } else { //list view
             return view('frontend.philanthropists.philanthropists_list_view', [
-                'countries'  => Country::orderBy('name')->get(),
-                'cities'     => City::orderBy('name')->get(),
                 'industries' => $industries
             ]);
         }
