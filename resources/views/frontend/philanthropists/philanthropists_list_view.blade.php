@@ -184,7 +184,7 @@
                         <label for="city-lived-in" class="advanced-search__title">City Lived In</label>
                         <input type="text"
                                class="form-control"
-                               placeholder="City Born In..."
+                               placeholder="City Lived In..."
                                value=""
                                name="city-lived-in"
                                id="city-lived-in"
