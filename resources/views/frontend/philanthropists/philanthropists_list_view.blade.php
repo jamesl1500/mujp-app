@@ -175,11 +175,7 @@
                    <div class="col-6 col-md-3 col-lg-3">
                     <div class="form-group">
                         <label for="country-born-in" class="advanced-search__title">Country Born In</label>
-                        <select class="form-control select2" name="country_born_in"
-                        id="country_born_in"
-                        oninput="countryChangedHandler(event)">
-                           @include('shared.option-list', ['options' => $countries, 'addEmptyOption' => true])
-                       </select>
+                        <input type="text" class="form-control" placeholder="Country Born In..." value="" name="country-born-in" id="country-born-in" />
                     </div>
                    </div>
                    <!-- Birth Year -->
@@ -190,8 +186,8 @@
                                class="form-control"
                                placeholder="City Born In..."
                                value=""
-                               name="city-died-in"
-                               id="city-died-in"
+                               name="city-lived-in"
+                               id="city-lived-in"
                                required
                                />
                     </div>
@@ -200,11 +196,7 @@
                 <div class="col-6 col-md-3 col-lg-3">
                  <div class="form-group">
                      <label for="country_lived_in" class="advanced-search__title">Country Lived In</label>
-                     <select class="form-control select2" name="country_lived_in"
-                     id="country_lived_in"
-                     oninput="countryChangedHandler(event)">
-                        @include('shared.option-list', ['options' => $countries, 'addEmptyOption' => true])
-                    </select>
+                    <input type="text" class="form-control" placeholder="Country Lived In..." value="" name="country-lived-in" id="country-lived-in" />
                  </div>
                 </div>
                 </div>

@@ -50,6 +50,12 @@ class PhilanthropistController extends Controller
         $lname  = $request->lname;
         $name = $fname . ' ' . $lname;
 
+        $city_born_in = $request->cityBornIn;
+        $country_born_in = $request->countryBornIn;
+
+        $city_lived_in = $request->cityLivedIn;
+        $country_lived_in = $request->countryLivedIn;
+
         $sortParam = $request->sort;
 
         $itemsPerPage = 6;
@@ -105,9 +111,44 @@ class PhilanthropistController extends Controller
         }
 
         if($request->cityBornIn){
-            $philanthropists = $philanthropists->where('city_of_birth', '=', $request->cityBornIn);
+            // First find city with name LIKE $city_born_in
+            $city = City::where('name', 'like', '%' . $city_born_in . '%')->first();
+
+            // If city found, get philanthropists born in that city by using ID
+            if($city){
+                $philanthropists = $philanthropists->where('city_of_birth', '=', $city->id);
+            }
         }
 
+        if($request->countryBornIn){
+            // First find country with name LIKE $country_born_in
+            $country = Country::where('name', 'like', '%' . $country_born_in . '%')->first();
+
+            // If country found, get philanthropists born in that country by using ID
+            if($country){
+                $philanthropists = $philanthropists->where('country_of_birth', '=', $country->id);
+            }
+        }
+
+        if($request->cityLivedIn){
+            // First find city with name LIKE $city_lived_in
+            $city = City::where('name', 'like', '%' . $city_lived_in . '%')->first();
+
+            // If city found, get philanthropists lived in that city by using ID
+            if($city){
+                $philanthropists = $philanthropists->where('city_of_most_lived_in', '=', $city->id);
+            }
+        }
+
+        if($request->countryLivedIn){
+            // First find country with name LIKE $country_lived_in
+            $country = Country::where('name', 'like', '%' . $country_lived_in . '%')->first();
+
+            // If country found, get philanthropists lived in that country by using ID
+            if($country){
+                $philanthropists = $philanthropists->where('country_of_most_lived_in', '=', $country->id);
+            }
+        }
 
 
         if ($request->industry) {
